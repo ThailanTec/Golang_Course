@@ -1,0 +1,50 @@
+Primeiro, fazer o donwload da dependencia que é o mysql:
+
+go get github.com/go-sql-driver/mysql
+
+1 - Para fazer a conexão com o banco, usamos uma string de conexão que vai passar user, senha do usuario de conexão. 
+
+stringConexao := "golang:Golang123#@/devbook?charset=utf8&parseTime=true&loc=Local"
+
+2 - Logo em seguida, passamos a chamada de driver no import, ele tem que ser de forma anomima(_ na frente), para que possa funcionar perfeitamente. 
+
+3 - Podemos passar agora a chamada para abertura do banco de dados:
+
+	db, erro := sql.Open("mysql", stringConexao)
+	if erro != nil {
+		log.Fatal(erro)
+	}
+
+Chamamos a variavel de 'db', e logo em seguida, falamos que ela pode conter um erro, então já passamos para poder tratar mais a frente. 
+Passamos então, sql.Open("mysql", stringConexao), para informar ao sistema que o banco que vamos trabalhar é mysql logo em seguida passamos a chave de string, onde contem os dados para realizar a conexão com o banco de dados.
+
+Depois, validamos o erro, caso ele seja diferente de nil, enviamos o erro que foi retornado para a tela nós auxiliando em seu debug. 
+
+	if erro != nil {
+		log.Fatal(erro)
+	}
+
+Depois, passamos um defer db.Close(), para informar que inpedente do que acontecer a conexão com o banco vai se fechar. 
+
+Para realmente fazer a validação se o banco está funcionando, vamos utilizar o a chamada de ping, para assim validarmos que o banco está realmente recebendo a nossa solicitação de conexão. 
+
+if erro = db.Ping(); erro != nil {
+		log.Fatal(erro)
+	}
+	fmt.Println("Conexão aberta!")
+
+    Dessa forma fazemos a função de chamada do ping, para vê a conexão com o banco de dados. E a partir desse ponto vemos como tá conexão com o banco de dados.
+
+
+Criando uma Query de busca no banco:
+
+
+
+	linhas, erro := db.Query("select * from usuarios")
+
+	if erro != nil {
+		log.Fatal(erro)
+	}
+	defer linhas.Close()
+
+Obs: Sempre lembrar de fechar a chamada do banco ao final.
