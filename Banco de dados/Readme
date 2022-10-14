@@ -48,3 +48,33 @@ Criando uma Query de busca no banco:
 	defer linhas.Close()
 
 Obs: Sempre lembrar de fechar a chamada do banco ao final.
+
+
+## Criando uma conexão com o banco de dados
+
+Podemos criar um arquivo chamado config.go ou db.go onde vai ficar contida as informações para conexão com o banco de dados. Dessa forma, podemos passar as informações para abrir a conexão com o banco, via string: 
+
+`stringConexao := "golang:Golang123#@/devbook?charset=utf8&parseTime=true&loc=Local"`
+
+Dessa forma, informando os dados para o nosso banco de dados. 
+
+Logo em seguida verificamos como está a aplicação, se realmente está batendo no banco e dessa forma, passamos que estámos querendo que a mesma retorne um erro em caso de falha: 
+`
+db, erro := sql.Open("mysql", stringConexao)
+	if erro != nil {
+		return nil, erro
+	}
+
+`
+
+Logo em seguida, fazemos um teste de ping, para de vez, verificar se está ocorrendo bem a conexão, posteriormente a isso, podemos prosseguir com a aplicação. 
+
+	if erro = db.Ping(); erro != nil {
+		return nil, erro
+	}
+
+	return db, nil
+
+
+## Adicionando dados no banco de dados
+
